@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
 
 #define max(a, b) (a > b ? a : b)
 
@@ -45,6 +46,7 @@ void output(char* outFileName) {
 
 void DP() {
     dp_table = (int*)malloc((m + 1) * sizeof(int));
+    memset(dp_table, 0, (m + 1) * sizeof(int));
     for (int i = 0; i < n; i++) {
         int w = item[i].weight;
         int v = item[i].value;
