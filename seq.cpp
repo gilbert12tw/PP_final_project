@@ -30,8 +30,8 @@ void input(char* infile) {
     fread(&n, sizeof(int), 1, file);
     fread(&m, sizeof(int), 1, file);
 
-    item = (Item*)malloc(m * 2 * sizeof(int));
-    fread(item, sizeof(int), m * 2, file);
+    item = (Item*)malloc(n * 2 * sizeof(int));
+    fread(item, sizeof(int), n * 2, file);
     fclose(file);
 }
 
