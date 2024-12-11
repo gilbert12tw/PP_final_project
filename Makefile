@@ -1,5 +1,5 @@
 CC = gcc
-CXX = g++-14
+CXX = g++
 NVCC = nvcc
 HIPCC = hipcc
 
