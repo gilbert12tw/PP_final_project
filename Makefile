@@ -22,7 +22,7 @@ HIPCCFLAGS = -std=c++11 -O3 --offload-arch=gfx90a \
 LDFLAGS = -lm -fopenmp
 
 LDFLAGS = -lm
-EXES = seq gpu
+EXES = seq knapsack_gpu gpu
 
 .PHONY: all clean
 
@@ -34,7 +34,7 @@ clean:
 seq: seq.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $?
 
-gpu: gpu.cu
+knapsack_gpu: knapsack_gpu.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
 
 gpu_dbg: gpu.cu
