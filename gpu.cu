@@ -4,13 +4,8 @@
 
 #include <cuda_runtime.h>
 
+#define BLOCK_SIZE 1024
 #define max(a, b) (a > b ? a : b)
-#define swap(a, b)    \
-    {                 \
-        int *tmp = a; \
-        a = b;        \
-        b = tmp;      \
-    }
 
 const int INF = ((1 << 30) - 1);
 const int V = 50010;
@@ -18,7 +13,7 @@ void input(char *inFileName);
 void output(char *outFileName);
 
 void DP();
-__global__ void DP_kernel(int *dp_table0, int *dp_table1, int weight, int value);
+__global__ void DP_kernel(int *dp_table_prv, int *dp_table_cur, int weight, int value);
 
 struct Item {
     int weight, value;
@@ -53,26 +48,31 @@ void output(char *outFileName) {
 }
 
 void DP() {
-    int *dp_table0_dev, *dp_table1_dev;
-    int const m_pad = ((m + 1) + 1024 - 1) / 1024 * 1024;
-    cudaMalloc((void **)&dp_table0_dev, m_pad * sizeof(int));
-    cudaMalloc((void **)&dp_table1_dev, m_pad * sizeof(int));
+    int *d_table_prv, *d_table_cur;
+    int const m_pad = ((m + 1) + BLOCK_SIZE - 1) / BLOCK_SIZE * BLOCK_SIZE;
+    cudaMalloc((void **)&d_table_prv, m_pad * sizeof(int));
+    cudaMalloc((void **)&d_table_cur, m_pad * sizeof(int));
+
+    dim3 const block(BLOCK_SIZE);
+    dim3 const grid(m_pad / BLOCK_SIZE);
+
     for (int i = 0; i < n; i++) {
-        DP_kernel<<<m_pad / 1024, 1024>>>(dp_table0_dev, dp_table1_dev, item[i].weight, item[i].value);
-        swap(dp_table0_dev, dp_table1_dev);
+        DP_kernel<<<grid, block>>>(d_table_prv, d_table_cur, item[i].weight, item[i].value);
+        d_table_cur ^= d_table_prv;
+        d_table_prv ^= d_table_cur;
     }
 
     cudaMallocHost((void **)&dp_table, (m + 1) * sizeof(int));
-    cudaMemcpy(dp_table, dp_table0_dev, (m + 1) * sizeof(int), cudaMemcpyDeviceToHost);
-    cudaFree(dp_table0_dev);
-    cudaFree(dp_table1_dev);
+    cudaMemcpy(dp_table, d_table_prv, (m + 1) * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaFree(d_table_prv);
+    cudaFree(d_table_cur);
     free(item);
 }
 
-__global__ void DP_kernel(int *dp_table0, int *dp_table1, int weight, int value) {
+__global__ void DP_kernel(int *dp_table_prv, int *dp_table_cur, int weight, int value) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
-    int val = dp_table0[i];
-    if (i >= weight) 
-        val = max(val, dp_table0[i - weight] + value);
-    dp_table1[i] = val;
+    int val = dp_table_prv[i];
+    if (i >= weight)
+        val = max(val, dp_table_prv[i - weight] + value);
+    dp_table_cur[i] = val;
 }

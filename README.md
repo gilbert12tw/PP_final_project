@@ -24,7 +24,7 @@
 ### Run Tests
 
 ```bash
-python3 judge.py exe
+python3 judge_srun.py exe
 ```
 
 ## Test Cases

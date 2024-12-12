@@ -52,4 +52,5 @@ testcases/temp.*
 seq
 gpu
 gpu_dbg
+knapsack_gpu
 tmp.txt

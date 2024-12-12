@@ -37,7 +37,7 @@ def run_test(exe_path):
         try:
             start_time = time.time()
             result = subprocess.run(
-                ["srun", "-N1", "-n1", "--gres=gpu:1", "./" + exe_path, in_file, out_file], 
+                ["./" + exe_path, in_file, out_file], 
                 capture_output=True,
                 text=True,
                 check=True
