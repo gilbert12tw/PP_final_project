@@ -9,7 +9,7 @@ using namespace std;
 // Constants for data generation
 const int MAX_N = 1000000;  // Maximum number of items
 const int MAX_M = 1000000;  // Maximum total capacity
-const int MAX_V = 3000;   // Maximum value per item
+const int MAX_V = 2000;   // Maximum value per item
 
 void generate_test_data(const char* filename, int n, int m) {
     // Setup random number generator

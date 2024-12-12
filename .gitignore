@@ -48,3 +48,8 @@ utilities/reader
 
 # Temporary files
 testcases/temp.*
+
+seq
+gpu
+gpu_dbg
+tmp.txt
