@@ -1,68 +1,69 @@
+
 Running GPU tests...
 
-Case  1: Correct 0.140s
-        CPU: 85%, Memory: 119072KB
-        User: 0.010s, System: 0.100s
-Case  2: Correct 0.160s
-        CPU: 94%, Memory: 121112KB
-        User: 0.010s, System: 0.140s
+Case  1: Correct 0.130s
+        CPU: 91%, Memory: 118996KB
+        User: 0.000s, System: 0.110s
+Case  2: Correct 0.110s
+        CPU: 95%, Memory: 118904KB
+        User: 0.010s, System: 0.090s
 Case  3: Correct 0.110s
-        CPU: 94%, Memory: 119120KB
-        User: 0.000s, System: 0.100s
-Case  4: Correct 0.120s
-        CPU: 92%, Memory: 119152KB
+        CPU: 94%, Memory: 121140KB
+        User: 0.010s, System: 0.090s
+Case  4: Correct 0.110s
+        CPU: 96%, Memory: 119024KB
         User: 0.000s, System: 0.100s
 Case  5: Correct 0.110s
-        CPU: 94%, Memory: 121248KB
+        CPU: 91%, Memory: 119052KB
         User: 0.000s, System: 0.100s
-Case  6: Correct 0.120s
-        CPU: 96%, Memory: 119672KB
+Case  6: Correct 0.110s
+        CPU: 96%, Memory: 118936KB
+        User: 0.000s, System: 0.100s
+Case  7: Correct 0.110s
+        CPU: 93%, Memory: 120972KB
+        User: 0.020s, System: 0.080s
+Case  8: Correct 0.120s
+        CPU: 95%, Memory: 120888KB
         User: 0.010s, System: 0.100s
-Case  7: Correct 0.120s
-        CPU: 95%, Memory: 122168KB
-        User: 0.020s, System: 0.090s
-Case  8: Correct 0.130s
-        CPU: 96%, Memory: 120788KB
-        UP1$r2 q\[?12;2$yser: 0.030s, System: 0.080s
-Case  9: Correct 0.140s
-        CPU: 95%, Memory: 125944KB
+Case  9: Correct 0.130s
+        CPU: 95%, Memory: 119004KB
+        User: 0.030s, System: 0.090s
+Case 10: Correct 0.140s
+        CPU: 95%, Memory: 118992KB
         User: 0.030s, System: 0.100s
-Case 10: Correct 0.160s
-        CPU: 96%, Memory: 122544KB
+Case 11: Correct 0.150s
+        CPU: 96%, Memory: 121672KB
+        User: 0.040s, System: 0.100s
+Case 12: Correct 0.160s
+        CPU: 96%, Memory: 121560KB
         User: 0.050s, System: 0.100s
-Case 11: Correct 0.190s
-        CPU: 94%, Memory: 125524KB
-        User: 0.090s, System: 0.090s
-Case 12: Correct 0.350s
-        CPU: 98%, Memory: 125836KB
-        User: 0.230s, System: 0.100s
-Case 13: Correct 1.610s
-        CPU: 99%, Memory: 129548KB
-        User: 1.500s, System: 0.100s
-Case 14: Correct 0.790s
-        CPU: 98%, Memory: 134584KB
-        User: 0.650s, System: 0.120s
-Case 15: Correct 3.820s
-        CPU: 99%, Memory: 147336KB
-        User: 3.690s, System: 0.120s
-Case 16: Correct 4.880s
-        CPU: 99%, Memory: 159168KB
-        User: 4.710s, System: 0.160s
-Case 17: Correct 5.110s
-        CPU: 99%, Memory: 141572KB
-        User: 4.990s, System: 0.110s
-Case 18: Correct 7.610s
-        CPU: 99%, Memory: 145480KB
-        User: 7.470s, System: 0.110s
-Case 19: Correct 12.900s
-        CPU: 99%, Memory: 166836KB
-        User: 12.760s, System: 0.130s
+Case 13: Correct 0.450s
+        CPU: 98%, Memory: 123732KB
+        User: 0.340s, System: 0.100s
+Case 14: Correct 0.310s
+        CPU: 98%, Memory: 128636KB
+        User: 0.200s, System: 0.100s
+Case 15: Correct 1.010s
+        CPU: 99%, Memory: 126632KB
+        User: 0.890s, System: 0.100s
+Case 16: Correct 1.250s
+        CPU: 99%, Memory: 144028KB
+        User: 1.120s, System: 0.110s
+Case 17: Correct 1.450s
+        CPU: 99%, Memory: 126524KB
+        User: 1.320s, System: 0.120s
+Case 18: Correct 2.250s
+        CPU: 99%, Memory: 128472KB
+        User: 2.140s, System: 0.100s
+Case 19: Correct 4.230s
+        CPU: 99%, Memory: 146044KB
+        User: 4.080s, System: 0.140s
 
 Summary:
 Total cases: 19
 Passed: 19/19
 Pass rate: 100.0%
-Total time: 38.570s
-Average time: 2.030s
-Average CPU usage: 95.8%
-Average memory usage: 130879KB
+Total time: 12.440s
+Average time: 0.655s
+Average CPU usage: 96.0%
+Average memory usage: 124379KB

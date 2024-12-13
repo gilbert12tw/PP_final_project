@@ -53,4 +53,5 @@ seq
 gpu
 gpu_dbg
 knapsack_gpu
+knapsack_mckp
 tmp.txt
