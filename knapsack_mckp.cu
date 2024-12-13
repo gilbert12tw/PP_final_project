@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <cuda.h>
-#include <cuda_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define BLOCK_SIZE 1024
+#define CHUNK_SIZE 4096
 #define max(a, b) (a > b ? a : b)
 #define INF ((1 << 30) - 1)
 
@@ -12,27 +12,29 @@ struct Item {
     int weight, value;
 };
 
-__forceinline__ bool compareByValue(const Item &a, const Item &b) {
+static inline bool compareByValue(const Item &a, const Item &b) {
     if (a.value == b.value) {
         return a.weight < b.weight;
     }
     return a.value < b.value;
 }
-__forceinline__ int ceil_div(int a, int b) { return (a + b - 1) / b; }
+static inline int ceil_div(int a, int b) { return (a + b - 1) / b; }
 
 __global__ void mckp_kernel(int *dp_prev, int *dp_curr,
                             int *group_weights, int group_value) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    __shared__ int shared_weights[BLOCK_SIZE];
+    __shared__ int shared_weights[CHUNK_SIZE];
 
-    shared_weights[threadIdx.x] = group_weights[threadIdx.x];
+#pragma unroll(4096 / 1024)
+    for (int i = threadIdx.x; i < CHUNK_SIZE; i += blockDim.x)
+        shared_weights[i] = group_weights[i];
     __syncthreads();
 
     int maxVal = dp_prev[idx];
     int sumW = 0;
 
-    for (int k = 0; k < BLOCK_SIZE; k++) {
+    for (int k = 0; k < CHUNK_SIZE; k++) {
         sumW += shared_weights[k];
         if (sumW > idx) break;
 
@@ -66,7 +68,7 @@ void processGroups(Item *items, int n, int *&group_counts, int *&unique_values, 
     int curr_value = items[0].value;
     int g_cnt = 1;
     for (int i = 1; i < n; i++) {
-        if (items[i].value != curr_value || g_cnt >= BLOCK_SIZE) {
+        if (items[i].value != curr_value || g_cnt >= CHUNK_SIZE) {
             num_groups++;
             curr_value = items[i].value;
             g_cnt = 1;
@@ -85,7 +87,7 @@ void processGroups(Item *items, int n, int *&group_counts, int *&unique_values, 
     unique_values[0] = curr_value;
 
     for (int i = 1; i < n; i++) {
-        if (items[i].value != curr_value || group_counts[group_idx] >= BLOCK_SIZE) {
+        if (items[i].value != curr_value || group_counts[group_idx] >= CHUNK_SIZE) {
             group_idx++;
             curr_value = items[i].value;
             unique_values[group_idx] = curr_value;
@@ -124,7 +126,7 @@ int main(int argc, char *argv[]) {
 
     processGroups(items, n, group_counts, unique_values, num_groups);
 
-    int const m_pad = ceil_div(m + 1, BLOCK_SIZE) * BLOCK_SIZE;
+    int const m_pad = ceil_div(m + 1, CHUNK_SIZE) * CHUNK_SIZE;
     int *d_dp_prev = NULL, *d_dp_curr = NULL;
     cudaMalloc((void **)&d_dp_prev, m_pad * sizeof(int));
     cudaMalloc((void **)&d_dp_curr, m_pad * sizeof(int));
@@ -136,14 +138,16 @@ int main(int argc, char *argv[]) {
 
     int curr_pos = 0;
     int *d_group_weights = NULL;
-    cudaMalloc((void **)&d_group_weights, BLOCK_SIZE * sizeof(int));
-    int *group_weights = (int *)malloc(BLOCK_SIZE * sizeof(int));
+    cudaMalloc((void **)&d_group_weights, CHUNK_SIZE * sizeof(int));
+    int *group_weights = NULL;
+    cudaMallocHost(&group_weights, CHUNK_SIZE * sizeof(int));
     for (int g = 0; g < num_groups; g++) {
-        for (int i = 0; i < BLOCK_SIZE; i++)
+#pragma omp parallel for
+        for (int i = 0; i < CHUNK_SIZE; i++)
             group_weights[i] = (i < group_counts[g] ? items[curr_pos + i].weight : INF);
 
         cudaMemcpy(d_group_weights, group_weights,
-                   BLOCK_SIZE, cudaMemcpyHostToDevice);
+                   CHUNK_SIZE * sizeof(int), cudaMemcpyHostToDevice);
 
         mckp_kernel<<<numBlocks, BLOCK_SIZE>>>(d_dp_prev, d_dp_curr,
                                                d_group_weights, unique_values[g]);
@@ -155,7 +159,7 @@ int main(int argc, char *argv[]) {
         curr_pos += group_counts[g];
     }
     cudaFree(d_group_weights);
-    free(group_weights);
+    cudaFreeHost(group_weights);
 
     int result;
     cudaMemcpy(&result, &d_dp_prev[m], sizeof(int), cudaMemcpyDeviceToHost);
