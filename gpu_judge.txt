@@ -1,25 +1,57 @@
 
-[1mRunning tests...[0m
+[1mRunning GPU tests...[0m
 
-Case  1: [92mCorrect[0m 0.346s
-Case  2: [92mCorrect[0m 0.358s
-Case  3: [92mCorrect[0m 0.287s
-Case  4: [92mCorrect[0m 0.288s
-Case  5: [92mCorrect[0m 0.307s
-Case  6: [92mCorrect[0m 0.281s
-Case  7: [92mCorrect[0m 0.280s
-Case  8: [92mCorrect[0m 1.288s
-Case  9: [92mCorrect[0m 0.313s
-Case 10: [92mCorrect[0m 0.304s
-Case 11: [92mCorrect[0m 0.503s
-Case 12: [92mCorrect[0m 0.551s
-Case 13: [92mCorrect[0m 4.519s
-Case 14: [92mCorrect[0m 2.476s
-Case 15: [92mCorrect[0m 42.647s
+Case  1: [92mCorrect[0m 0.120s
+        CPU: 93%, Memory: 120880KB
+        User: 0.010s, System: 0.100s
+Case  2: [92mCorrect[0m 0.140s
+        CPU: 87%, Memory: 118952KB
+        User: 0.000s, System: 0.110s
+Case  3: [92mCorrect[0m 0.110s
+        CPU: 92%, Memory: 118912KB
+        User: 0.000s, System: 0.100s
+Case  4: [92mCorrect[0m 0.110s
+        CPU: 93%, Memory: 118936KB
+        User: 0.010s, System: 0.090s
+Case  5: [92mCorrect[0m 0.110s
+        CPU: 96%, Memory: 119660KB
+        User: 0.010s, System: 0.090s
+Case  6: [92mCorrect[0m 0.110s
+        CPU: 94%, Memory: 120968KB
+        User: 0.000s, System: 0.100s
+Case  7: [92mCorrect[0m 0.110s
+        CPU: 96%, Memory: 119008KB
+        User: 0.000s, System: 0.100s
+Case  8: [92mCorrect[0m 0.110s
+        CPU: 92%, Memory: 120844KB
+        User: 0.010s, System: 0.090s
+Case  9: [92mCorrect[0m 0.120s
+        CPU: 95%, Memory: 120904KB
+        User: 0.010s, System: 0.100s
+Case 10: [92mCorrect[0m 0.130s
+        CPU: 94%, Memory: 118920KB
+        User: 0.020s, System: 0.100s
+Case 11: [92mCorrect[0m 0.320s
+        CPU: 94%, Memory: 121344KB
+        User: 0.200s, System: 0.100s
+Case 12: [92mCorrect[0m 0.340s
+        CPU: 98%, Memory: 123452KB
+        User: 0.220s, System: 0.110s
+Case 13: [92mCorrect[0m 4.320s
+        CPU: 99%, Memory: 119332KB
+        User: 2.060s, System: 2.250s
+Case 14: [92mCorrect[0m 2.240s
+        CPU: 99%, Memory: 128492KB
+        User: 2.080s, System: 0.140s
+Case 15: [92mCorrect[0m 42.250s
+        CPU: 99%, Memory: 129496KB
+        User: 19.480s, System: 22.760s
 
 [1mSummary:[0m
 Total cases: 15
 Passed: [92m15/15[0m
 Pass rate: [92m100.0%[0m
-Total time: 54.749s
-Average time: 3.650s
+Total time: 50.640s
+Average time: 3.376s
+Average CPU usage: 94.7%
+Average memory usage: 121340KB

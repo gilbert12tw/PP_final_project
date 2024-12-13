@@ -37,7 +37,7 @@ void input(char* infile) {
 }
 
 void output(char* outFileName) {
-    FILE* outfile = fopen(outFileName, "w");
+    FILE* outfile = fopen(outFileName, "wb");
     int ans = 0;
     for (int i = 1; i <= m; i++) ans = max(ans, dp_table[i]);
     fwrite(&ans, sizeof(int), 1, outfile);

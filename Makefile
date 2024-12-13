@@ -37,5 +37,8 @@ seq: seq.cpp
 knapsack_gpu: knapsack_gpu.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
 
+gpu: gpu.cu
+	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
+
 gpu_dbg: gpu.cu
 	$(NVCC) -std=c++11 -O3 -Xptxas="-v" -arch=sm_61 -g -G $(LDFLAGS) -o $@ $?
