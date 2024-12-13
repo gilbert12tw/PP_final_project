@@ -1,0 +1,56 @@
+Running GPU tests...
+
+Case  1: Correct 0.130s
+        CPU: 95%, Memory: 121048KB
+        User: 0.000s, System: 0.120s
+Case  2: Correct 0.140s
+        CPU: 86%, Memory: 121492KB
+        User: 0.000s, System: 0.120s
+Case  3: Correct 0.140s
+        CPU: 85%, Memory: 118980KB
+        User: 0.010s, System: 0.110s
+Case  4: Correct 0.110s
+        CPU: 88%, Memory: 119080KB
+        User: 0.000s, System: 0.100s
+Case  5: Correct 0.120s
+        CPU: 88%, Memory: 121336KB
+        User: 0.000s, System: 0.110s
+Case  6: Correct 0.120s
+        CPU: 95%, Memory: 119576KB
+        User: 0.010s, System: 0.100s
+Case  7: Correct 0.130s
+        CPU: 94%, Memory: 121976KB
+        User: 0.010s, System: 0.100s
+Case  8: Correct 0.120s
+        CPU: 93%, Memory: 122912KB
+        User: 0.020s, System: 0.090s
+Case  9: Correct 0.140s
+        CPU: 96%, Memory: 124044KB
+        User: 0.030s, System: 0.100s
+Case 10: Correct 0.150s
+        CPU: 96%, Memory: 124652KB
+        User: 0.030s, System: 0.110s
+Case 11: Correct 0.200s
+        CPU: 96%, Memory: 125652KB
+        User: 0.090s, System: 0.090s
+Case 12: Correct 0.310s
+        CPU: 97%, Memory: 126028KB
+        User: 0.200s, System: 0.100s
+Case 13: Correct 1.680s
+        CPU: 99%, Memory: 129464KB
+        User: 1.570s, System: 0.100s
+Case 14: Correct 0.810s
+        CPU: 98%, Memory: 136536KB
+        User: 0.670s, System: 0.130s
+Case 15: Correct 4.560s
+        CPU: 99%, Memory: 137912KB
+        User: 4.430s, System: 0.110s
+
+Summary:
+Total cases: 15
+Passed: 15/15
+Pass rate: 100.0%
+Total time: 8.860s
+Average time: 0.591s
+Average CPU usage: 93.7%
+Average memory usage: 124713KB
