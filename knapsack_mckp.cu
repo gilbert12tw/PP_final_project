@@ -5,6 +5,7 @@
 
 #define BLOCK_SIZE 1024
 #define CHUNK_SIZE 4096
+
 #define max(a, b) (a > b ? a : b)
 #define INF ((1 << 30) - 1)
 
@@ -139,8 +140,7 @@ int main(int argc, char *argv[]) {
     int curr_pos = 0;
     int *d_group_weights = NULL;
     cudaMalloc((void **)&d_group_weights, CHUNK_SIZE * sizeof(int));
-    int *group_weights = NULL;
-    cudaMallocHost(&group_weights, CHUNK_SIZE * sizeof(int));
+    int *group_weights = (int*)malloc(CHUNK_SIZE * sizeof(int));
     for (int g = 0; g < num_groups; g++) {
 #pragma omp parallel for
         for (int i = 0; i < CHUNK_SIZE; i++)
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
         curr_pos += group_counts[g];
     }
     cudaFree(d_group_weights);
-    cudaFreeHost(group_weights);
+    free(group_weights);
 
     int result;
     cudaMemcpy(&result, &d_dp_prev[m], sizeof(int), cudaMemcpyDeviceToHost);
