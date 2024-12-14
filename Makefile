@@ -39,6 +39,9 @@ seq: seq.cpp
 knapsack_gpu: knapsack_gpu.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
 
+knapsack_gpu_opt: knapsack_gpu_opt.cu
+	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
+
 gpu: gpu.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
 
@@ -46,6 +49,9 @@ gpu_dbg: gpu.cu
 	$(NVCC) -std=c++11 -O3 -Xptxas="-v" -arch=sm_61 -g -G $(LDFLAGS) -o $@ $?
 
 knapsack_mckp: knapsack_mckp.cu
+	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
+
+knapsack_mckp_by_weight: knapsack_mckp_by_weight.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
 
 knapsack_mitm: knapsack_mitm.cu
