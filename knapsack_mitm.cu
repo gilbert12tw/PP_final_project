@@ -64,22 +64,25 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < num_groups_mid; i++)
         num_items_mid += group_counts[i];
 
-    cudaSetDevice(0);
-    int *dp0 = mckp(items, group_counts, group_values, m, num_groups_mid);
-    cudaSetDevice(1);
-    int *dp1 = mckp(items + num_items_mid,
-                    group_counts + num_groups_mid,
-                    group_values + num_groups_mid,
-                    m, num_groups - num_groups_mid);
+    int *dp[2];
+#pragma omp parallel for
+    for (int i = 0; i < 2; ++i) {
+        cudaSetDevice(i);
+        dp[i] = mckp(items + i * num_items_mid,
+                     group_counts + i * num_groups_mid,
+                     group_values + i * num_groups_mid,
+                     m, i ? num_groups - num_groups_mid : num_groups_mid);
+    }
 
-    cudaSetDevice(0);
-    cudaDeviceSynchronize();
-    cudaSetDevice(1);
-    cudaDeviceSynchronize();
+#pragma unroll(2)
+    for (int i = 0; i < 2; i++) {
+        cudaSetDevice(i);
+        cudaDeviceSynchronize();
+    }
 
     int ans = 0;
     for (int i = 0; i <= m; i++)
-        ans = max(ans, dp0[i] + dp1[m - i]);
+        ans = max(ans, dp[0][i] + dp[1][m - i]);
 
     free(group_counts);
     free(group_values);
@@ -87,8 +90,8 @@ int main(int argc, char *argv[]) {
 
     output(argv[2], ans);
 
-    free(dp0);
-    free(dp1);
+    free(dp[0]);
+    free(dp[1]);
 
     return 0;
 }
@@ -137,7 +140,6 @@ int *mckp(Item *items, int *group_counts, int *group_values,
 
     return result;
 }
-
 __global__ void mckp_kernel(int *dp_prev, int *dp_curr,
                             int *group_weights, int group_value) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;

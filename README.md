@@ -27,6 +27,14 @@
 python3 judge_srun.py exe
 ```
 
+#### Run knapsack_mitm
+
+knapsack_mitm is designed to run on 2 GPUs. To judge the solution, run the following command:
+
+```bash
+python3 judge_srun.py knapsack_mitm 2
+```
+
 ## Test Cases
 
 Each test case consists of:

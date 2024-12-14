@@ -1,0 +1,69 @@
+
+Running GPU tests...
+
+Case  1: Correct 0.230s
+        CPU: 135%, Memory: 229236KB
+        User: 0.020s, System: 0.280s
+Case  2: Correct 0.240s
+        CPU: 122%, Memory: 229172KB
+        User: 0.020s, System: 0.270s
+Case  3: Correct 0.220s
+        CPU: 126%, Memory: 229976KB
+        User: 0.000s, System: 0.270s
+Case  4: Correct 0.210s
+        CPU: 113%, Memory: 229084KB
+        User: 0.020s, System: 0.220s
+Case  5: Correct 0.210s
+        CPU: 131%, Memory: 231156KB
+        User: 0.020s, System: 0.260s
+Case  6: Correct 0.220s
+        CPU: 122%, Memory: 229116KB
+        User: 0.050s, System: 0.210s
+Case  7: Correct 0.210s
+        CPU: 134%, Memory: 229216KB
+        User: 0.030s, System: 0.260s
+Case  8: Correct 0.220s
+        CPU: 130%, Memory: 229196KB
+        User: 0.060s, System: 0.220s
+Case  9: Correct 0.230s
+        CPU: 130%, Memory: 229256KB
+        User: 0.040s, System: 0.260s
+Case 10: Correct 0.220s
+        CPU: 130%, Memory: 230180KB
+        User: 0.050s, System: 0.230s
+Case 11: Correct 0.240s
+        CPU: 136%, Memory: 232016KB
+        User: 0.080s, System: 0.250s
+Case 12: Correct 0.270s
+        CPU: 132%, Memory: 230248KB
+        User: 0.090s, System: 0.260s
+Case 13: Correct 0.420s
+        CPU: 156%, Memory: 237228KB
+        User: 0.400s, System: 0.260s
+Case 14: Correct 0.380s
+        CPU: 126%, Memory: 237264KB
+        User: 0.230s, System: 0.250s
+Case 15: Correct 0.760s
+        CPU: 164%, Memory: 244428KB
+        User: 0.960s, System: 0.290s
+Case 16: Correct 0.940s
+        CPU: 137%, Memory: 260016KB
+        User: 1.010s, System: 0.270s
+Case 17: Correct 0.950s
+        CPU: 172%, Memory: 252292KB
+        User: 1.380s, System: 0.250s
+Case 18: Correct 1.360s
+        CPU: 178%, Memory: 259976KB
+        User: 2.160s, System: 0.270s
+Case 19: Correct 2.280s
+        CPU: 175%, Memory: 275708KB
+        User: 3.720s, System: 0.290s
+
+Summary:
+Total cases: 19
+Passed: 19/19
+Pass rate: 100.0%
+Total time: 9.810s
+Average time: 0.516s
+Average CPU usage: 139.4%
+Average memory usage: 238145KB
