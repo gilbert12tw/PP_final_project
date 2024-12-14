@@ -54,4 +54,5 @@ gpu
 gpu_dbg
 knapsack_gpu
 knapsack_mckp
+knapsack_mitm
 tmp.txt

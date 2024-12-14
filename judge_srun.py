@@ -40,7 +40,7 @@ def parse_time_output(stderr):
         print(f"Error parsing time output: {e}")
     return None
 
-def run_gpu_test(exe_path):
+def run_gpu_test(exe_path: str, num_gpus: int = 1):
     testcase_dir = "testcases"
     i = 1
     total_time = 0
@@ -66,7 +66,7 @@ def run_gpu_test(exe_path):
                 "srun",
                 "-N1",
                 "-n1",
-                "--gres=gpu:1",
+                f"--gres=gpu:{num_gpus}",
                 "time",  # Using system's time command
                 "./" + exe_path,
                 in_file,
@@ -139,11 +139,16 @@ def run_gpu_test(exe_path):
         print(f"Average memory usage: {total_memory/total:.0f}KB")
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python {} <executable>".format(sys.argv[0]))
+    if not(2 <= len(sys.argv) <= 3):
+        print("Usage: python {} <executable> <gpu>".format(sys.argv[0]))
         sys.exit(1)
         
-    run_gpu_test(sys.argv[1])
+    if len(sys.argv) == 2:
+        run_gpu_test(sys.argv[1])
+    elif len(sys.argv) == 3:
+        assert sys.argv[2].isdigit(), "GPU number must be an integer"
+        assert 0 < int(sys.argv[2]) <= 2, "GPU number must be in [1, 2]"
+        run_gpu_test(sys.argv[1], int(sys.argv[2]))
 
 if __name__ == "__main__":
     main()

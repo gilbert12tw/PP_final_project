@@ -14,10 +14,7 @@ struct Item {
 };
 
 static inline bool compareByValue(const Item &a, const Item &b) {
-    if (a.value == b.value) {
-        return a.weight < b.weight;
-    }
-    return a.value < b.value;
+    return a.value == b.value ? a.weight < b.weight : a.value < b.value;
 }
 static inline int ceil_div(int a, int b) { return (a + b - 1) / b; }
 
@@ -62,7 +59,7 @@ void input(char *infile, int &n, int &m, Item *&items) {
     fclose(file);
 }
 
-void processGroups(Item *items, int n, int *&group_counts, int *&unique_values, int &num_groups) {
+void processGroups(Item *items, int n, int *&group_counts, int *&group_values, int &num_groups) {
     std::sort(items, items + n, compareByValue);
 
     num_groups = 1;
@@ -79,19 +76,19 @@ void processGroups(Item *items, int n, int *&group_counts, int *&unique_values, 
     }
 
     group_counts = (int *)malloc(num_groups * sizeof(int));
-    unique_values = (int *)malloc(num_groups * sizeof(int));
+    group_values = (int *)malloc(num_groups * sizeof(int));
     memset(group_counts, 0, num_groups * sizeof(int));
 
     int group_idx = 0;
     curr_value = items[0].value;
     group_counts[0] = 1;
-    unique_values[0] = curr_value;
+    group_values[0] = curr_value;
 
     for (int i = 1; i < n; i++) {
         if (items[i].value != curr_value || group_counts[group_idx] >= CHUNK_SIZE) {
             group_idx++;
             curr_value = items[i].value;
-            unique_values[group_idx] = curr_value;
+            group_values[group_idx] = curr_value;
             group_counts[group_idx] = 1;
         } else {
             group_counts[group_idx]++;
@@ -122,10 +119,10 @@ int main(int argc, char *argv[]) {
     input(argv[1], n, m, items);
 
     int *group_counts = NULL;
-    int *unique_values = NULL;
+    int *group_values = NULL;
     int num_groups;
 
-    processGroups(items, n, group_counts, unique_values, num_groups);
+    processGroups(items, n, group_counts, group_values, num_groups);
 
     int const m_pad = ceil_div(m + 1, CHUNK_SIZE) * CHUNK_SIZE;
     int *d_dp_prev = NULL, *d_dp_curr = NULL;
@@ -140,7 +137,7 @@ int main(int argc, char *argv[]) {
     int curr_pos = 0;
     int *d_group_weights = NULL;
     cudaMalloc((void **)&d_group_weights, CHUNK_SIZE * sizeof(int));
-    int *group_weights = (int*)malloc(CHUNK_SIZE * sizeof(int));
+    int *group_weights = (int *)malloc(CHUNK_SIZE * sizeof(int));
     for (int g = 0; g < num_groups; g++) {
 #pragma omp parallel for
         for (int i = 0; i < CHUNK_SIZE; i++)
@@ -150,7 +147,7 @@ int main(int argc, char *argv[]) {
                    CHUNK_SIZE * sizeof(int), cudaMemcpyHostToDevice);
 
         mckp_kernel<<<numBlocks, BLOCK_SIZE>>>(d_dp_prev, d_dp_curr,
-                                               d_group_weights, unique_values[g]);
+                                               d_group_weights, group_values[g]);
 
         int *temp = d_dp_prev;
         d_dp_prev = d_dp_curr;
@@ -169,7 +166,7 @@ int main(int argc, char *argv[]) {
     cudaFree(d_dp_prev);
     cudaFree(d_dp_curr);
     free(group_counts);
-    free(unique_values);
+    free(group_values);
     free(items);
 
     return 0;

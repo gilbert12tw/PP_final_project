@@ -47,3 +47,6 @@ gpu_dbg: gpu.cu
 
 knapsack_mckp: knapsack_mckp.cu
 	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
+
+knapsack_mitm: knapsack_mitm.cu
+	$(NVCC) $(NVFLAGS) $(LDFLAGS) -o $@ $?
