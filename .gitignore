@@ -49,6 +49,8 @@ utilities/reader
 # Temporary files
 testcases/temp.*
 
+*.nsys-rep
+
 seq
 gpu
 gpu_dbg
