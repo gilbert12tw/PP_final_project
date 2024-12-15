@@ -31,7 +31,7 @@ void processGroups(Item *items, int n,
 int *mckp(Item *items, int *group_counts, int *group_values,
           int m, int num_groups);
 __global__ void mckp_kernel(int *dp_prev, int *dp_curr,
-                            int *group_weights, int group_value);
+                            int *prefix_weight, int group_value);
 
 int main(int argc, char *argv[]) {
 #ifndef NDEBUG
@@ -40,11 +40,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int deviceCount;
-    cudaGetDeviceCount(&deviceCount);
-    if (deviceCount != 2) {
-        printf("Error: This program requires two GPUs\n");
-        return 1;
+    {
+        int deviceCount;
+        cudaGetDeviceCount(&deviceCount);
+        if (deviceCount != 2) {
+            printf("Error: This program requires two GPUs\n");
+            return 1;
+        }
     }
 #endif
 
@@ -71,22 +73,17 @@ int main(int argc, char *argv[]) {
         dp[i] = mckp(items + i * num_items_mid,
                      group_counts + i * num_groups_mid,
                      group_values + i * num_groups_mid,
-                     m, i ? num_groups - num_groups_mid : num_groups_mid);
-    }
-
-#pragma unroll(2)
-    for (int i = 0; i < 2; i++) {
-        cudaSetDevice(i);
+                     m, i * (num_groups - 2 * num_groups_mid) + num_groups_mid);
         cudaDeviceSynchronize();
     }
-
-    int ans = 0;
-    for (int i = 0; i <= m; i++)
-        ans = max(ans, dp[0][i] + dp[1][m - i]);
 
     free(group_counts);
     free(group_values);
     free(items);
+
+    int ans = 0;
+    for (int i = 0; i <= m; i++)
+        ans = max(ans, dp[0][i] + dp[1][m - i]);
 
     output(argv[2], ans);
 
@@ -109,19 +106,23 @@ int *mckp(Item *items, int *group_counts, int *group_values,
     int numBlocks = m_pad / BLOCK_SIZE;
 
     int curr_pos = 0;
-    int *d_group_weights = NULL;
-    cudaMalloc((void **)&d_group_weights, CHUNK_SIZE * sizeof(int));
-    int *group_weights = (int *)malloc(CHUNK_SIZE * sizeof(int));
+    int *d_prefix_weight = NULL;
+    cudaMalloc((void **)&d_prefix_weight, CHUNK_SIZE * sizeof(int));
+    int *prefix_weight = (int *)malloc(CHUNK_SIZE * sizeof(int));
     for (int g = 0; g < num_groups; g++) {
 #pragma omp parallel for
-        for (int i = 0; i < CHUNK_SIZE; i++)
-            group_weights[i] = (i < group_counts[g] ? items[curr_pos + i].weight : INF);
+        for (int i = 0; i < CHUNK_SIZE; i++) {
+            long long w = (i < group_counts[g]
+                               ? 0LL + prefix_weight[i - 1] + items[curr_pos + i].weight
+                               : INF);
+            prefix_weight[i] = min(w, (long long)INF);
+        }
 
-        cudaMemcpy(d_group_weights, group_weights,
+        cudaMemcpy(d_prefix_weight, prefix_weight,
                    CHUNK_SIZE * sizeof(int), cudaMemcpyHostToDevice);
 
         mckp_kernel<<<numBlocks, BLOCK_SIZE>>>(d_dp_prev, d_dp_curr,
-                                               d_group_weights, group_values[g]);
+                                               d_prefix_weight, group_values[g]);
 
         int *temp = d_dp_prev;
         d_dp_prev = d_dp_curr;
@@ -129,8 +130,8 @@ int *mckp(Item *items, int *group_counts, int *group_values,
 
         curr_pos += group_counts[g];
     }
-    cudaFree(d_group_weights);
-    free(group_weights);
+    cudaFree(d_prefix_weight);
+    free(prefix_weight);
 
     int *result = (int *)malloc((m + 1) * sizeof(int));
     cudaMemcpy(result, d_dp_prev, (m + 1) * sizeof(int), cudaMemcpyDeviceToHost);
@@ -141,25 +142,19 @@ int *mckp(Item *items, int *group_counts, int *group_values,
     return result;
 }
 __global__ void mckp_kernel(int *dp_prev, int *dp_curr,
-                            int *group_weights, int group_value) {
+                            int *prefix_weight, int group_value) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    __shared__ int shared_weights[CHUNK_SIZE];
+    __shared__ int s_prefix_weight[CHUNK_SIZE];
 
 #pragma unroll(4096 / 1024)
     for (int i = threadIdx.x; i < CHUNK_SIZE; i += blockDim.x)
-        shared_weights[i] = group_weights[i];
+        s_prefix_weight[i] = prefix_weight[i];
     __syncthreads();
 
     int maxVal = dp_prev[idx];
-    int sumW = 0;
-
-    for (int k = 0; k < CHUNK_SIZE; k++) {
-        sumW += shared_weights[k];
-        if (sumW > idx) break;
-
-        maxVal = max(maxVal, dp_prev[idx - sumW] + group_value * (k + 1));
-    }
+    for (int k = 0; k < CHUNK_SIZE && s_prefix_weight[k] <= idx; k++)
+        maxVal = max(maxVal, dp_prev[idx - s_prefix_weight[k]] + group_value * (k + 1));
 
     dp_curr[idx] = maxVal;
 }

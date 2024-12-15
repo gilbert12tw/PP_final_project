@@ -38,7 +38,6 @@ void input(char *infile) {
     fread(item, sizeof(Item), n, file);
     fclose(file);
 }
-
 void output(char *outFileName) {
     FILE *outfile = fopen(outFileName, "w");
     fwrite(&result, sizeof(int), 1, outfile);
@@ -65,7 +64,6 @@ void DP() {
     cudaFree(d_dp_cur);
     free(item);
 }
-
 __global__ void DP_kernel(int *dp_prv, int *dp_cur, int weight, int value) {
     int const i = blockIdx.x * blockDim.x + threadIdx.x;
     int val = dp_prv[i];

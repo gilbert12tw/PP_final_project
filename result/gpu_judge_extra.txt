@@ -1,70 +1,30 @@
 
-Running GPU tests...
-
-Case  1: Correct 0.120s
-        CPU: 92%, Memory: 118976KB
-        User: 0.010s, System: 0.090s
-Case  2: Correct 0.140s
-        CPU: 90%, Memory: 123060KB
-        User: 0.010s, System: 0.110s
-Case  3: Correct 0.120s
-        CPU: 96%, Memory: 121052KB
-        User: 0.010s, System: 0.100s
-Case  4: Correct 0.120s
-        CPU: 89%, Memory: 121724KB
-        User: 0.010s, System: 0.100s
-Case  5: Correct 0.120s
-        CPU: 91%, Memory: 121028KB
-        User: 0.010s, System: 0.100s
-Case  6: Correct 0.110s
-        CPU: 94%, Memory: 120884KB
-        User: 0.010s, System: 0.090s
-Case  7: Correct 0.110s
-        CPU: 92%, Memory: 121052KB
-        User: 0.000s, System: 0.100s
-Case  8: Correct 0.110s
-        CPU: 94%, Memory: 118948KB
-        User: 0.010s, System: 0.090s
-Case  9: Correct 0.130s
-        CPU: 94%, Memory: 121092KB
-        User: 0.020s, System: 0.100s
-Case 10: Correct 0.140s
-        CPU: 95%, Memory: 120944KB
-        User: 0.030s, System: 0.090s
-Case 11: Correct 0.330s
-        CPU: 95%, Memory: 121372KB
-        User: 0.210s, System: 0.100s
-Case 12: Correct 0.350s
-        CPU: 98%, Memory: 119872KB
-        User: 0.220s, System: 0.110s
-Case 13: Correct 4.330s
-        CPU: 99%, Memory: 123556KB
-        User: 2.150s, System: 2.180s
-Case 14: Correct 2.300s
-        CPU: 99%, Memory: 125380KB
-        User: 2.110s, System: 0.180s
-Case 15: Correct 84.390s
-        CPU: 100%, Memory: 142512KB
-        User: 39.890s, System: 44.510s
-Case 16: Correct 126.630s
-        CPU: 100%, Memory: 148360KB
-        User: 60.610s, System: 66.040s
-Case 17: Correct 86.900s
-        CPU: 99%, Memory: 140316KB
-        User: 40.200s, System: 46.690s
-Case 18: Correct 131.490s
-        CPU: 100%, Memory: 142900KB
-        User: 61.470s, System: 70.030s
-Case 19: Runtime Error - srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-slurmstepd: error: *** STEP 174288.0 ON apollo-nv-vm1 CANCELLED AT 2024-12-13T15:00:07 DUE TO TIME LIMIT ***
-srun: error: apollo-nv-vm1: task 0: Terminated
-
+Running tests...                                                                                                                                                                
+                                                                                                                                                                                
+Case  1: Correct 0.099s                                                                                                                      y", line 101, in <module>
+Case  2: Correct 0.094s                                                                                                                                                         
+Case  3: Correct 0.094s                                                                                                                      y", line 98, in main
+Case  4: Correct 0.095s                                                                                                                                                         
+Case  5: Correct 0.095s                                                                                                                      y", line 39, in run_test
+Case  6: Correct 0.099s
+Case  7: Correct 0.098s
+Case  8: Correct 0.100s                                                                                                                      , in run  
+Case  9: Correct 0.105s                                                                                                                      out=timeout)
+Case 10: Correct 0.115s                                                                                                                      ^^^^^^^^^^^^
+Case 11: Correct 0.294s                                                                                                                      7, in communicate
+Case 12: Correct 0.320s                                                                                                                      e, timeout)                    
+Case 13: Correct 4.306s                                                                                                                      ^^^^^^^^^^^
+Case 14: Correct 2.317s                                                                                                                      9, in _communicate
+Case 15: Correct 42.219s                                                                                                                                                        
+Case 16: Correct 126.624s                                                                                                                                                       
+Case 17: Correct 86.968s                                                                                                                        "apollo-nv-test" 15:34 15-Dec-24
+Case 18: Correct 131.790s
+Case 19: Correct 396.166s
+Case 20: Correct 42.238s
 
 Summary:
-Total cases: 19
-Passed: 18/19
-Pass rate: 94.7%
-Total time: 437.940s
-Average time: 23.049s
-Average CPU usage: 90.4%
-Average memory usage: 119633KB
+Total cases: 20
+Passed: 20/20
+Pass rate: 100.0%
+Total time: 834.235s
+Average time: 41.712s

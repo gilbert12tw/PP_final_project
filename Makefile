@@ -22,7 +22,7 @@ HIPCCFLAGS = -std=c++11 -O3 --offload-arch=gfx90a \
 LDFLAGS = -lm -fopenmp
 
 LDFLAGS = -lm
-EXES = seq knapsack_gpu knapsack_mckp gpu
+EXES = seq knapsack_gpu knapsack_mckp knapsack_mitm gpu
 
 .PHONY: all clean
 

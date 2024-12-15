@@ -1,0 +1,30 @@
+
+Running tests...
+
+Case  1: Correct 0.001s
+Case  2: Correct 0.001s
+Case  3: Correct 0.001s
+Case  4: Correct 0.001s
+Case  5: Correct 0.001s
+Case  6: Correct 0.001s
+Case  7: Correct 0.002s
+Case  8: Correct 0.003s
+Case  9: Correct 0.006s
+Case 10: Correct 0.012s
+Case 11: Correct 0.115s
+Case 12: Correct 1.113s
+Case 13: Correct 11.234s
+Case 14: Correct 11.089s
+Case 15: Correct 112.658s
+Case 16: Correct 478.139s
+Case 17: Correct 224.939s
+Case 18: Correct 340.130s
+Case 19: Correct 1015.806s
+Case 20: Correct 112.601s
+
+Summary:
+Total cases: 20
+Passed: 20/20
+Pass rate: 100.0%
+Total time: 2307.851s
+Average time: 115.393s

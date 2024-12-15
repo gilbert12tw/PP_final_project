@@ -24,7 +24,8 @@
 ### Run Tests
 
 ```bash
-python3 judge_srun.py exe
+python3 judge_srun.py <exe> <num_gpus>
+python3 judge_srun.py gpu | sed -r "s/\x1B\[[0-9;]*[mK]//g" > ./result/gpu_judge_extra.txt
 ```
 
 #### Run knapsack_mitm
@@ -32,7 +33,7 @@ python3 judge_srun.py exe
 knapsack_mitm is designed to run on 2 GPUs. To judge the solution, run the following command:
 
 ```bash
-python3 judge_srun.py knapsack_mitm 2
+python3 judge_srun.py knapsack_mitm 2 | sed -r "s/\x1B\[[0-9;]*[mK]//g" > ./result/mitm_judge_extra.txt
 ```
 
 ## Test Cases
@@ -92,3 +93,9 @@ Each test case consists of:
     ["14"]="1000000 100000"
     ["15"]="1000000 1000000"
 
+    # extra Testcases
+    ["16"]="3000000 1000000"
+    ["17"]="1000000 2000000"
+    ["18"]="1000000 3000000"
+    ["19"]="3000000 3000000"
+    ["20"]="1000000 1000000"
